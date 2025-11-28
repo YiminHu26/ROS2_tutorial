@@ -1,0 +1,57 @@
+# WSL2
+## Reference: https://learn.microsoft.com/en-us/windows/wsl/install
+## 1 Open Powershell as administrator
+
+## 2 Run the line "wsl --install <DistroName>"
+### The distribution can be found by "wsl --list --online". Here we installed the Ubuntu-24.04 
+### "wsl --install Ubuntu-24.04"
+#### If we want to uninstall a Linux distro, use "wsl --unregister <DistroName>"
+
+## 3 Once the WSL is installed, we need to setup the linux username and password
+### "wsl"
+### Enter the username and password twice(blind)
+
+## 4 Update and upgrade packages
+### "sudo apt update"
+### "sudo apt install"
+
+## 5 Install ros2-jazzy
+### Reference: https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
+### Follow all the steps until source /opt/ros/jazzy/setup.bash
+
+## 6 Install other environment and tools
+### sudo apt terminator (With this tool we can open 2x2 terminal blocks by Ctrl+O and Ctrl+E)
+### sudo apt install build-essentials gcc make perl dkms
+### sudo apt install gedit
+### **Install VSCode**
+### sudo snap install code --classic
+### sudo apt install ros-jazzy-urdf-tutorial
+### sudo apt install ros-jazzy-tf2-tools
+### sudo apt install ros-jazzy-ros-gazebo
+
+## 7 Install some extensions in VSCode
+### ROS(Robot Developer Extensions for ROS2)
+### CMake
+
+## 8 Setup of git
+### Reference: https://www.bilibili.com/video/BV1Hkr7YYEh8/?spm_id_from=333.337.search-card.all.click&vd_source=1623f5cd6c5bdbc5aea15e556f358aad
+### Git normally comes with WSL2
+### Can be checked by "git --version"
+### Otherwise run "apt-get install git"
+### git config --global user.name "H-Yimin"
+### git config --global user.email yimin.hu26@gmail.com
+
+## 9 Create workspace and add the path to the setup.bash
+### In the home directory "/"
+### mkdir ros2_ws
+### cd ros2_ws
+### **Here I will demonstrate how to clone the src folder from Github**
+### git clone https://github.com/H-Yimin/ROS2_tutorial.git src
+### colcon build
+### cd
+### gedit .bashrc
+### Add these two lines at the end of the .bashrc
+### source /opt/ros/jazzy/setup.bash
+### source ~/ros2_ws/install/setup.bash
+
+
