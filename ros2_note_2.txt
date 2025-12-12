@@ -512,9 +512,48 @@ ros2 topic pub -r 1 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.5}, angular
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 # control the car with uio jkl m<> (remember to have the terminator in the front)
 
+//////////////////////////////////////////////////////////////////////////////
+06-014 Create a World in Gazebo
+# Resource spawner: browse in https://app.gazebosim.org/OpenRobotics and directly search for the models in Gazebo
+# ^^^ That was only for models from the organization OpenRobotics
+# TO add from other organization, either create a new folder with the name of its organization
+# or go to this website and download the model, exatract it, locate the dae file
+# in gazebo entity tree, "+" meshes and place it
 
+# TO perfectly replicate the environment, use blender or solidworks ...
 
+# To save the environment, first remove the robot(right click-remove)
+# Menu-save world as-name it with .sdf extention-leave boxes unchecked
+# start it again
+gz sim <name>
 
+////////////////////////////////////////////////////////////////////////////////////
+06-015 Launch the robot in the world
+# 1 store the environment file under my_robot_bringup/worlds/test_world.sdf
+# 2 In CMakeLists add worlds to install
+# 3 In my_robot_gazebo.launch xml replace empty.sdf with the current environment
+# 4 colcon build
+# 5 ros2 launch my_robot_bringup my_robot_gazebo.launch.xml
+# 6 ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+# The robot will be spawned in the environment and can be controlled by the keyboard
+# the sdf file can be modified manually as well (for example to place some object fixed in their position, 
+# we may need to first import them into the entity tree and then modify soe parameters in the sdf file)
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+07-002 Add a Camera to the URDF
+# we basically create a new xacro file for the camera, where a new link and joint related to the camera is created
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+07-003 Add a Gazebo PLugin for the camera
+# in this lesson we added a sensor plugin to the gazebo, and bridge the gazebo topic to rviz, so that we can directly visualize the camera in rviz
+
+# 1 In "test_world.sdf", add sensor plugin (line 12-14)
+# 2 In "camera.xacro" add a new gazebo tag (where the two topics "camera/camera_info" and "camera/image_raw" exist, can also be checked by "gz topic -l" after running "ros2 launch my_robot_bringup my_robot_gazebo.launch.xml"
+# 3 Bridge the topics (refer to 06-012)
+# 4 Launch the ros again (validate that ROS also has camera topics now by "ros2 topic list"
+# 5 IN Rviz, click add-camera-topic:camera/image/raw
+(Somehow there's a blue occludor in front of the camera, maybe the camera has to be moved a bit forward?)
 
 
 
