@@ -559,5 +559,13 @@ gz sim <name>
 07-004 Optional QUick fix for the camera to work with ROS
 # Actually with OpenCV, as the coordinate convention of OpenCV is different from RViz)
 
+///////////////////////////////////////////////////////////////////
+08 Final Project
+# with arm alone
+ros2 topic pub -1 /joint0/cmd_pos std_msgs/msg/Float64  "{data: 0.5}"
+ros2 topic pub -1 /joint1/cmd_pos std_msgs/msg/Float64  "{data: 0.5}"
+
+or publish to /set_joint_trajectory
+
 
 

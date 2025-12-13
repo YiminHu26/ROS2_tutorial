@@ -2,6 +2,9 @@
     <let name="urdf_path"
         value="$(find-pkg-share my_robot_description)/urdf/my_robot.urdf.xacro" />
 
+    <!-- <let name="urdf_path"
+        value="$(find-pkg-share my_robot_description)/urdf/standalone_arm.urdf.xacro" /> -->
+
     <let name="gazebo_config_path"
         value="$(find-pkg-share my_robot_bringup)/config/gazebo_bridge.yaml" />
 
