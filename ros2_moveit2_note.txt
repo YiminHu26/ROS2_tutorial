@@ -69,10 +69,44 @@ ros2 launch my_robot_2_description display.launch.xml
 # Code details see file
 # 7 colcon build and source again, launch success
 
+///////////////////////////////////////////////////////////////////////
+04-001~003 Activity 02
+# Add the collsion tags
+# Here we use box for cylinder parts in the collision tag, just to make it simpler and safer
 
+/////////////////////////////////////////////////////////////////////////////
+04-004 Run the Moveit Setup Assistant
+ros2 launch moveit_setup_assistant setup_assistant.launch.py
+# Some key staff: self-collision, virtual joints, planning group, ros2_control(only position checked), perception(if it has one)
+# In the future if we want to edit the moveit config, we can run the command line again and load the existing config folder
 
+//////////////////////////////////////////////////////////////////////////
+04-005 Files Overview
+# Notice that there is a new extention .srdf (config/my_robot_2.urdf), where several configs we did in the moveit setup assistant is stored
+# In launch/ folder we will only use demo.launch.py and move_group.launch.py
 
+///////////////////////////////////////////////////////////////////////////////
+04-006 Start the Moveit Demo launch file
+# Remember to install ros-jazzy-ros2-control ros-jazzy-ros2-controllers
+sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers
+# First colcon build packages and source
+# Then run this line:
+ros2 launch my_robot_moveit_config demo.launch.py
+# It will return an exception: 
+# parameter 'robot_description_planning.joint_limits.joint1.max_velocity' has invalid type: expected [double] got [integer]
+# To solve this we should go to "config/joint_limits.yaml" and change the value "1" and "0" to "1.0", and "false" to "true"
 
+# Next after we launched the rviz and wanted to execute the planning movement from home pose to pose 1
+# It returned failure
+# To solve this, go to "config/moveit_controllers.yaml" and add two new lines
+action_ns: follow_joint_trajectory
+default: true
+
+# Several important setting
+- MotionPlanning/Planned Path/Loop Animation
+- MotionPlanning/Planned Path/Show Trail
+- MotionPlanning/Scene Robot/Links/<one link>/Show Trail
+- Use Cartisian Path: like another constraint for the robot arm, motion may not be executed because of singularity
 
 
 
