@@ -206,17 +206,64 @@ ros2 run my_robot_2_commander_cpp test_moveit.cpp
 
 //////////////////////////////////////////////////////////////////////////////////////////
 07-006 Integrate the C++ API inside an OOP node
-# In this lesson we programmed a new cpp OOP node "commander" to use C++ API to control nodes(arm and gripper)
-# 4 Methods (3 for different method to plan and 1 for plan and execution)
+# In this lesson we created a new cpp OOP node "commander" to use C++ API to control nodes(arm and gripper)
+# We are creating this to get an easier access to the MoveGroup Functionalities.
+# And on top of that we can have our own simple interfaces to the rest our application.
+
+# 4 Methods for arm(3 for different method NamedTarget JointTarget and PoseTarget and 1 for plan and execution)
 # Datails see cpp file
 # To test the node, 2 methods:
 # [1] As we did in test_moveit.cpp, we can have a node keep spinning and run different methods to see if it works
 # [2] Create a topic publisher and subcriber for e.g. NamedTarget or JointTarget
 
+/////////////////////////////////////////////////////////////
+07-007 Add a Topic Subscriber
 
+# Create Methods to open and close the gripper
+# Create Subscriber to receive the topic 
+# Add dependencies example_interfaces to packages.xml
+# Create the executable commander in CMakeList
+# Add commander to install in CMakeList
+# colcon build and source
 
+ros2 launch my_robot_2_bringup my_robot_2.launch.xml
+ros2 run my_robot_2_commander_cpp commander
+# This line can also be integrated into the launch file with:
+# <node pkg="my_robot_2_commander_cpp" exec="commander" />
+# But we dont do it here because we want to see the log for testing
+# And later we will have another commander pkg in python, they might conflict.
 
+# Now we can publish command to the interfaces
+# The topic is /open_gripper 
+# The interface here is example_interfaces/msg/Bool (can be checked by ros2 topic info /open_gripper)
+# open
+ros2 topic pub -1 /open_gripper example_interfaces/msg/Bool "{data: true}"
+# Close
+ros2 topic pub -1 /open_gripper example_interfaces/msg/Bool "{data: false}"
 
+//////////////////////////////////////////////////////////////
+07-008~010 Activity 05
+# Add subscribers for JointTarget(float64 multi-array) and PoseTarget(custom interface)
+
+# 1 for JointTarget
+# Create a topic /joint_command
+ros2 topic pub -1 /joint_command example_interfaces/msg/Float64MultiArray "{data: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]}"
+# It can only accept 6 value array, either 5 or 7 would not work
+
+# 2 for PoseTarget
+# We will create a custom interface first. Reference: https://roboticsbackend.com/ros2-create-custom-message/
+ros2 pkg create my_robot_interfaces
+# modify the CMakelist and packages.xml
+# create a new msg type "PoseCommand.msg" in my_robot_interfaces/msg
+# colcon build
+
+# Include the msg interface (in .vscode/c_cpp_properties.json) and in the header of commander_template.cpp
+# Add "my_robot_interfaces" to dependencies in package.xml and CMakeList
+# Modify the commander_template.cpp file
+# colcon build and source
+ros2 topic pub -1 /pose_command my_robot_interfaces/msg/PoseCommand "{x: 0.7, y: 0.0, z: 0.4, roll: 3.14, pitch: 0.0, yaw: 0.0, cartesian_path: false}"
+ros2 topic pub -1 /pose_command my_robot_interfaces/msg/PoseCommand "{x: 0.7, y: 0.0, z: 0.2, roll: 3.14, pitch: 0.0, yaw: 0.0, cartesian_path: true}"
+ros2 topic pub -1 /pose_command my_robot_interfaces/msg/PoseCommand "{x: 0.7, y: 0.3, z: 0.2, roll: 3.14, pitch: 0.0, yaw: 0.0, cartesian_path: true}"
 
 
 

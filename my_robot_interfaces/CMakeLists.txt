@@ -15,6 +15,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   # "no comma for separating lines"
   "msg/HardwareStatus.msg"
   "msg/LedStateArray.msg"
+  "msg/PoseCommand.msg"
   "srv/ComputeRectangleArea.srv"
   "srv/SetLed.srv"
  )
