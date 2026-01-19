@@ -1,0 +1,35 @@
+controller_manager: # Name of the node
+  ros__parameters: # note there are 2 underscores
+    update_rate: 50
+
+    joint_state_broadcaster: # Name of the controller, will be used in the launch file
+      type: joint_state_broadcaster/JointStateBroadcaster # copied from https://github.com/ros-controls/ros2_controllers/blob/master/joint_state_broadcaster/joint_state_plugin.xml
+      
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["base_left_wheel_joint"]
+    right_wheel_names: ["base_right_wheel_joint"]
+
+    wheel_separation: 0.45 # Distance between the wheels according to our URDF
+    wheel_radius: 0.1
+
+    odom_frame_id: "odom" # Default, but better be explicit
+    base_frame_id: "base_footprint" # According to our URDF
+
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01] # Both from https://github.com/ros-controls/ros2_controllers/blob/master/diff_drive_controller/src/diff_drive_controller_parameter.yaml
+
+    enable_odom_tf: true
+    publish_rate: 50.0 # Note this rate should be no higher than the controller_manager update_rate (global rate), otherwise it will be set to that rate and not work as expected
+
+    linear.x.max_velocity: 1.0
+    linear.x.min_velocity: -1.0
+    angular.z.max_velocity: 1.0
+    angular.z.min_velocity: -1.0
+    # Note that in ROS2_humble, there should be a "has_velocity_limits", and is set to false defaultly.
+    # To use the velocity limits above, we need to set it to true.
+    # e.g. linear.x.has_velocity_limits: true
+    # In jazzy (and later versions), this parameter is removed, and the velocity limits are always used if provided.
