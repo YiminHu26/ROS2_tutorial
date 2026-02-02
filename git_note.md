@@ -54,6 +54,12 @@ $ git commit
 $ git push # Normally directly to origin/main
 $ git push origin dev
 # 6 In Github/Gitlab create pull request to merge
+# 7 Pull the remote repo to make sure everything is up to date
+$ git pull
+# 8 Delete the temporary branch e.g. dev
+$ git branch -d dev
+$ git push origin --delete dev
+
 
 # Bonus: Keep feature branches up to date
 $ git switch dev
