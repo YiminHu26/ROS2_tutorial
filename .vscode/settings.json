@@ -12,5 +12,6 @@
     "files.associations": {
         "functional": "cpp"
     },
-    "ros.distro": "jazzy"
+    "ros.distro": "jazzy",
+    "ROS2.distro": "jazzy"
 }
